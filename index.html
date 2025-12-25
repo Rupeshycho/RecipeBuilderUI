@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RecipeBuilder – My Fridge</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f7f6f3;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+.container {
+    background: #fff;
+    width: 350px;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+.input-box {
+    display: flex;
+    gap: 8px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+button {
+    background: #4caf6a;
+    color: white;
+    border: none;
+    width: 40px;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.category {
+    margin-top: 18px;
+}
+
+.category h4 {
+    margin-bottom: 8px;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag {
+    padding: 6px 10px;
+    border-radius: 14px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tag span {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.protein { background: #ffe5dc; color: #d35400; }
+.pantry  { background: #fff3c4; color: #b7950b; }
+.dairy   { background: #e8f0ff; color: #2e6bf6; }
+.produce { background: #e6f5ea; color: #2e8b57; }
+
+select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.footer {
+    margin-top: 15px;
+    color: #555;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>My Fridge</h2>
+
+    <div class="input-box">
+        <input id="ingredientInput" placeholder="Add an ingredient...">
+        <button onclick="addIngredient()">+</button>
+    </div>
+
+    <select id="categorySelect">
+        <option value="protein">Protein</option>
+        <option value="pantry">Pantry</option>
+        <option value="dairy">Dairy</option>
+        <option value="produce">Produce</option>
+    </select>
+
+    <div class="category">
+        <h4>🍖 Protein</h4>
+        <div class="tags" id="protein"></div>
+    </div>
+
+    <div class="category">
+        <h4>🥫 Pantry</h4>
+        <div class="tags" id="pantry"></div>
+    </div>
+
+    <div class="category">
+        <h4>🧀 Dairy</h4>
+        <div class="tags" id="dairy"></div>
+    </div>
+
+    <div class="category">
+        <h4>🥦 Produce</h4>
+        <div class="tags" id="produce"></div>
+    </div>
+
+    <div class="footer">
+        <span id="count">0</span> ingredients in your fridge
+    </div>
+</div>
+
+<script>
+function addIngredient() {
+    const input = document.getElementById("ingredientInput");
+    const category = document.getElementById("categorySelect").value;
+
+    if (input.value.trim() === "") return;
+
+    const tag = document.createElement("div");
+    tag.className = `tag ${category}`;
+    tag.innerHTML = `${input.value} <span onclick="this.parentElement.remove(); updateCount()">×</span>`;
+
+    document.getElementById(category).appendChild(tag);
+
+    input.value = "";
+    updateCount();
+}
+
+function updateCount() {
+    const total = document.querySelectorAll(".tag").length;
+    document.getElementById("count").innerText = total;
+}
+
+document.getElementById("ingredientInput")
+    .addEventListener("keypress", function(e) {
+        if (e.key === "Enter") addIngredient();
+    });
+</script>
+
+</body>
+</html>
